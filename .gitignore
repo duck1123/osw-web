@@ -7,3 +7,5 @@ war/WEB-INF/classes
 war/WEB-INF/web.xml
 .DS_Store
 *.orig
+target
+semantic.cache
