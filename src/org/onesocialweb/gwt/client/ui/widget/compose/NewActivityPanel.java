@@ -40,6 +40,7 @@ import org.onesocialweb.model.activity.ActivityEntry;
 import org.onesocialweb.model.activity.ActivityObject;
 import org.onesocialweb.model.activity.ActivityVerb;
 import org.onesocialweb.model.atom.AtomFactory;
+import org.onesocialweb.model.atom.AtomGenerator;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -126,6 +127,12 @@ public class NewActivityPanel extends Composite {
 		entry.addVerb(service.getActivityFactory().verb(ActivityVerb.POST));
 		entry.addObject(object);
 		entry.setPublished(now);
+
+        AtomGenerator generator = atomFactory.generator();
+        generator.setUri("http://github.com/onesocialweb/osw-web");
+        generator.setVersion("0.7");
+        generator.setText("osw-web");
+        entry.setGenerator(generator);
 
 		// add attachments if there are any
 		for (ActivityObject current : pictureAttachments) {
