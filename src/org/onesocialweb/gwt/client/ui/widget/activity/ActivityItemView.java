@@ -49,6 +49,7 @@ import org.onesocialweb.model.acl.AclRule;
 import org.onesocialweb.model.acl.AclSubject;
 import org.onesocialweb.model.activity.ActivityEntry;
 import org.onesocialweb.model.activity.ActivityObject;
+import org.onesocialweb.model.atom.AtomGenerator;
 import org.onesocialweb.model.atom.AtomReplyTo;
 import org.onesocialweb.model.vcard4.Profile;
 
@@ -280,8 +281,20 @@ public class ActivityItemView extends FlowPanel implements MouseOverHandler,
 		// if (tags != "") info += " - Tagged: " + tags;
 		if(commentNotification)
 			info += " - This is a comment to a previous post";
+		
+		if (activity.hasGenerator()) {
+			final AtomGenerator generator = activity.getGenerator();
+			info += " - Using <a ";
+			
+			if (generator.hasUri()) {
+				info += "href=\"" +
+					generator.getUri() + "\"";
+			}
+			
+			info += ">" + generator.getText() + "</a>";
+		}
 
-		infoLabel.setText(info);
+		infoLabel.setHTML(info);
 		author.setTitle(uiText.ViewProfileOf() + " " + activity.getActor().getUri());
 
 		// check for any attachments
