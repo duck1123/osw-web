@@ -8,9 +8,57 @@
   <description>Common data model, XML parsers/writers and other interfaces</description>
   <url>http://onesocialweb.org/</url>
 
+  <mailingLists>
+    <mailingList>
+      <name>One Social Web mailing list</name>
+      <post>onesocialweb@googlegroups.com</post>
+      <archive>http://groups.google.com/group/onesocialweb</archive>
+    </mailingList>
+  </mailingLists>
+
   <properties>
     <gwt.version>2.0.4</gwt.version>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
+
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>cobertura-maven-plugin</artifactId>
+        <version>2.4</version>
+        <configuration>
+          <formats>
+            <format>html</format>
+            <format>xml</format>
+          </formats>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <version>2.5</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jxr-plugin</artifactId>
+        <version>2.2</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-pmd-plugin</artifactId>
+        <version>2.5</version>
+        <configuration>
+          <targetJdk>1.6</targetJdk>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.7</version>
+      </plugin>
+    </plugins>
+  </reporting>
 
   <build>
     <resources>
@@ -54,27 +102,6 @@
       </plugin>
     </plugins>
   </build>
-
-  <repositories>
-    <repository>
-      <id>maven2-repository.dev.java.net</id>
-      <name>Java.net Repository for Maven</name>
-      <url>http://download.java.net/maven/2/</url>
-      <layout>default</layout>
-    </repository>
-    <repository>
-      <id>gwt-mobile-webkit</id>
-      <url>http://gwt-mobile-webkit.googlecode.com/svn/repo</url>
-    </repository>
-    <repository>
-      <id>gwt-maven</id>
-      <url>http://gwt-vl.sourceforge.net/maven</url>
-    </repository>
-    <repository>
-      <id>lib-repo</id>
-      <url>http://svn.apache.org/repos/asf/james/hupa/lib</url>
-    </repository>
-  </repositories>
 
   <dependencies>
     <dependency>
@@ -125,4 +152,42 @@
       <version>0.9a</version>
     </dependency>
   </dependencies>
+
+  <repositories>
+    <repository>
+      <id>maven2-repository.dev.java.net</id>
+      <name>Java.net Repository for Maven</name>
+      <url>http://download.java.net/maven/2/</url>
+      <layout>default</layout>
+    </repository>
+    <repository>
+      <id>gwt-mobile-webkit</id>
+      <url>http://gwt-mobile-webkit.googlecode.com/svn/repo</url>
+    </repository>
+    <repository>
+      <id>gwt-maven</id>
+      <url>http://gwt-vl.sourceforge.net/maven</url>
+    </repository>
+    <repository>
+      <id>lib-repo</id>
+      <url>http://svn.apache.org/repos/asf/james/hupa/lib</url>
+    </repository>
+  </repositories>
+
+  <distributionManagement>
+    <site>
+      <id>duck1123-fork</id>
+      <url>gitsite:git@github.com/duck1123/osw-web.git</url>
+    </site>
+    <repository>
+      <id>kronkltd.net</id>
+      <name>kronkltd.net-releases</name>
+      <url>http://kronkltd.net:8080/artifactory/libs-releases-local</url>
+    </repository>
+    <snapshotRepository>
+      <id>kronkltd.net</id>
+      <name>kronkltd.net-snapshots</name>
+      <url>http://kronkltd.net:8080/artifactory/libs-snapshots-local</url>
+    </snapshotRepository>
+  </distributionManagement>
 </project>
