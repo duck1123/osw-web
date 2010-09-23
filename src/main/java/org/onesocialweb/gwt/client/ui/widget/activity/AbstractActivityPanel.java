@@ -23,17 +23,22 @@
  */
 package org.onesocialweb.gwt.client.ui.widget.activity;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.onesocialweb.gwt.client.i18n.UserInterfaceText;
 import org.onesocialweb.gwt.client.task.DefaultTaskInfo;
-import org.onesocialweb.gwt.client.task.TaskMonitor;
 import org.onesocialweb.gwt.client.task.TaskInfo.Status;
+import org.onesocialweb.gwt.client.task.TaskMonitor;
 import org.onesocialweb.gwt.client.ui.widget.StyledLabel;
 import org.onesocialweb.gwt.service.Stream;
 import org.onesocialweb.gwt.service.StreamEvent;
 import org.onesocialweb.gwt.service.StreamEvent.Type;
+import org.onesocialweb.gwt.service.imp.GwtInbox.InboxEvent;
+import org.onesocialweb.gwt.service.imp.GwtReplies;
 import org.onesocialweb.gwt.util.Observer;
+import org.onesocialweb.model.activity.ActivityEntry;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -44,7 +49,9 @@ public abstract class AbstractActivityPanel<T> extends FlowPanel {
 	// internationalization
 	private UserInterfaceText uiText = (UserInterfaceText) GWT.create(UserInterfaceText.class);
 	
-	protected Stream<T> model;
+	List<String> expandedItems= new ArrayList<String>();
+	
+	protected Stream<T> model; // reference to the GwtInbox - the observable model
 
 	private DefaultTaskInfo task;
 
@@ -52,6 +59,10 @@ public abstract class AbstractActivityPanel<T> extends FlowPanel {
 	
 	private StyledLabel msg = new StyledLabel("message",
 			uiText.NoActivitiesAvailable());
+	
+	public void addExpanded(String activityId){
+		expandedItems.add(activityId);
+	}
 
 	public void setModel(Stream<T> model) {
 		this.model = model;
@@ -71,7 +82,8 @@ public abstract class AbstractActivityPanel<T> extends FlowPanel {
 		update = shouldUpdate;
 	}
 
-	protected abstract Widget render(T item);
+	protected abstract Widget render(T item, boolean expand);
+	
 
 	protected void repaint() {
 		clear();
@@ -104,25 +116,81 @@ public abstract class AbstractActivityPanel<T> extends FlowPanel {
 
 	private void showItem(T item) {
 		remove(msg);
-		Widget w = render(item);
+		Widget w = render(item, false);
 		if (w != null) {
-			insert(render(item), 0);
+			insert(w, 0);
 		}
 	}
+	
+	private void removeItem(T item){
+	
+		int index=getIndex(item);
+		remove(index);
+	}
+	
+	private void commentItem(T item, T comment){
+	
+		int index=getIndex(item);
+		Widget previousWidget = this.getWidget(index);
+		ActivityItemView oldAiv= (ActivityItemView) previousWidget;
+		
+		GwtReplies model = (GwtReplies)oldAiv.getCommentPanel().getReplies().getModel();
+						
+		ActivityEntry entry = (ActivityEntry) item;
+		if (expandedItems.contains(entry.getId())){			
+			model.addItem((ActivityEntry)comment);
+		}
+		else{ 
+			remove(index);
+			Widget w= render(item, false);	
+			insert(w, index);
+		}		
+		
+		
+	}
+	
+	private int getIndex(T item){
+		ActivityEntry entry = (ActivityEntry)item;
+		Iterator<Widget> it= this.iterator();
+		int index=0;
+		
+		while (it.hasNext()){			
+			ActivityItemView w =(ActivityItemView)it.next();
+			if (w.getActivity().getId().equals(entry.getId())){
+				break;
+			}			
+			index++;
+		}
+		return index;
+	}
+	
+
+	
 
 	private class StreamListener implements Observer<StreamEvent<T>> {
 
 		@Override
 		public void handleEvent(StreamEvent<T> event) {
-			if (update) {
-				if (event.getType().equals(Type.added)) {
+			/*if (update) { */
+				if ((event instanceof InboxEvent) && (event.getType().equals(Type.added))) {
 					for (T item : event.getItems()) {
-						showItem(item);
+						showItem(item);						
 					}
-				} else {
+				} 		
+				else if (event.getType().equals(Type.replied)) {
+						T item =event.getItems().get(0);
+						T comment = event.getItems().get(1);
+						commentItem(item, comment);
+					
+				}else if (event.getType().equals(Type.removed)){
+					for (T item : event.getItems()) {
+						removeItem(item);
+					}						
+				}				
+				else {
 					repaint();
 				}
-			}
+		//	}
 		}
 
 	}
