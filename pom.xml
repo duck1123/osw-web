@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.onesocialweb</groupId>
     <artifactId>osw-web</artifactId>
-    <version>0.6.1-SNAPSHOT</version>
+    <version>0.7-SNAPSHOT</version>
     <name>osw-web</name>
     <packaging>war</packaging>
 
