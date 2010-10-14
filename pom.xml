@@ -236,6 +236,16 @@
         </repository>
     </repositories>
 
+    <pluginRepositories>
+      <pluginRepository>
+        <id>codehaus</id>
+        <url>http://nexus.codehaus.org/snapshots</url>
+        <snapshots>
+          <enabled>true</enabled>
+        </snapshots>
+      </pluginRepository>
+    </pluginRepositories>
+
     <distributionManagement>
         <site>
             <id>duck1123-fork</id>
