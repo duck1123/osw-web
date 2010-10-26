@@ -234,6 +234,12 @@
             <id>lib-repo</id>
             <url>http://svn.apache.org/repos/asf/james/hupa/lib</url>
         </repository>
+
+        <repository>
+            <id>osw-repo</id>
+            <name>osw-repo-google</name>
+            <url>http://osw-repo.googlecode.com/svn/trunk/</url>
+        </repository>
     </repositories>
 
     <pluginRepositories>
@@ -262,4 +268,5 @@
             <url>http://kronkltd.net:8080/artifactory/libs-snapshots-local</url>
         </snapshotRepository>
     </distributionManagement>
+    
 </project>
