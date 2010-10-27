@@ -203,20 +203,6 @@
 
     <repositories>
         <repository>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-            <id>central</id>
-            <name>libs-releases</name>
-            <url>http://kronkltd.net:8080/artifactory/libs-releases</url>
-        </repository>
-        <repository>
-            <snapshots />
-            <id>snapshots</id>
-            <name>libs-snapshots</name>
-            <url>http://kronkltd.net:8080/artifactory/libs-snapshots</url>
-        </repository>
-        <repository>
             <id>maven2-repository.dev.java.net</id>
             <name>Java.net Repository for Maven</name>
             <url>http://download.java.net/maven/2/</url>
@@ -251,22 +237,5 @@
         </snapshots>
       </pluginRepository>
     </pluginRepositories>
-
-    <distributionManagement>
-        <site>
-            <id>duck1123-fork</id>
-            <url>gitsite:git@github.com/duck1123/osw-web.git</url>
-        </site>
-        <repository>
-            <id>kronkltd.net</id>
-            <name>kronkltd.net-releases</name>
-            <url>http://kronkltd.net:8080/artifactory/libs-releases-local</url>
-        </repository>
-        <snapshotRepository>
-            <id>kronkltd.net</id>
-            <name>kronkltd.net-snapshots</name>
-            <url>http://kronkltd.net:8080/artifactory/libs-snapshots-local</url>
-        </snapshotRepository>
-    </distributionManagement>
-    
+       
 </project>
